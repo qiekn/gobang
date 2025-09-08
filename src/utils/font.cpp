@@ -5,14 +5,14 @@
 
 void DrawTextUtil(const char* text, int x, int y, int fs, Color color);
 
-void ck::DrawText(const char* text, int x, int y, int fs, Color color) {
-  const auto& fd = FontManager::Get().GetNotoSCData();
-  DrawTextUtil(text, x, y, fs, color);
-}
-
 void ck::DrawTextPixel(const char* text, int x, int y, int fs, Color color) {
   const auto& fd = FontManager::Get().GetPixelSCData();
   DrawTextUtil(text, x, y, fs, color);
+}
+
+void ck::DrawTextPixelCenter(const char* text, int x, int y, int fs, Color color) {
+  Vector2Int size = MeasurePixelText(text, fs);
+  DrawTextPixel(text, x - size.x / 2, y - size.y / 2, fs, color);
 }
 
 Vector2Int ck::MeasurePixelText(const char* text, int fs) {
@@ -28,13 +28,4 @@ Vector2Int ck::MeasurePixelText(const std::string& text, int fs) { return Measur
 void DrawTextUtil(const char* text, int x, int y, int fs, Color color) {
   const Font& font = FontCache::Get().GetFont(fs, text);
   DrawTextEx(font, text, Vector2{(float)x, (float)y}, (float)fs, (float)TextStyle::kSpacing, color);
-}
-
-void ck::UpdateFont(const char* text) { FontCache::Get().GetFont(FontSize::kText, text); }
-
-void ck::UpdateFont(const std::string& str) { UpdateFont(str.c_str()); }
-
-void ck::DrawTextPixelCenter(const char* text, int x, int y, int fs, Color color) {
-  Vector2Int size = MeasurePixelText(text, fs);
-  DrawTextPixel(text, x - size.x / 2, y - size.y / 2, fs, color);
 }
