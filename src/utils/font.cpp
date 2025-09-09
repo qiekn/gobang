@@ -29,3 +29,11 @@ void DrawTextUtil(const char* text, int x, int y, int fs, Color color) {
   const Font& font = FontCache::Get().GetFont(fs, text);
   DrawTextEx(font, text, Vector2{(float)x, (float)y}, (float)fs, (float)TextStyle::kSpacing, color);
 }
+void ck::DrawTextExCenterV(const Font& font, const char* text, Vector2 pos, int fs, Color color) {
+  DrawTextExCenter(font, text, (int)pos.x, (int)pos.y, fs, color);
+}
+void ck::DrawTextExCenter(const Font& font, const char* text, int x, int y, int fs, Color color) {
+  Vector2 size = MeasureTextEx(font, text, (float)fs, (float)TextStyle::kSpacing);
+  DrawTextEx(font, text, Vector2{(float)(x - size.x / 2), (float)(y - size.y / 2)}, (float)fs,
+             (float)TextStyle::kSpacing, color);
+}

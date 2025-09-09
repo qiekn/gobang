@@ -1,6 +1,8 @@
 #include "game.h"
 #include <raylib.h>
 #include "constants.h"
+#include "utils/font-cache.h"
+#include "utils/singleton.h"
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -12,7 +14,7 @@
 void Game::Run() {
   Init();
 
-  InitWindow(kScreenWidth, kSreenHeight, "game");
+  InitWindow(kScreenWidth, kScreenHeight, "game");
 
   Start();
 
@@ -32,9 +34,13 @@ void Game::Run() {
 void Game::Init() {
   SetTraceLogLevel(LOG_WARNING);
   SetConfigFlags(FLAG_WINDOW_HIGHDPI);
+  // SetConfigFlags(FLAG_WINDOW_UNDECORATED);
 }
 
-void Game::Start() { scene_manager_ = std::make_unique<SceneManager>(); }
+void Game::Start() {
+  CONSTRUCT_SINGLETON(FontCache);
+  scene_manager_ = std::make_unique<SceneManager>();
+}
 
 void Game::Update() { scene_manager_->Update(); }
 
