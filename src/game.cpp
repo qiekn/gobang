@@ -9,18 +9,18 @@
 
 #if defined(PLATFORM_WEB)
 #include <emscripten/emscripten.h>
+Game* game = nullptr;
+void MainLoopWrapper() { game->Loop(); }
 #endif
 
 void Game::Run() {
   Init();
-
-  InitWindow(kScreenWidth, kScreenHeight, "game");
-
   Start();
 
   // Main loop
 #if defined(PLATFORM_WEB)
-  emscripten_set_main_loop(Loop, 0, 1);
+  game = this;
+  emscripten_set_main_loop(MainLoopWrapper, 0, 1);
 #else
   SetTargetFPS(kFPS);
   while (!WindowShouldClose()) {
@@ -35,6 +35,10 @@ void Game::Init() {
   SetTraceLogLevel(LOG_WARNING);
   SetConfigFlags(FLAG_WINDOW_HIGHDPI);
   // SetConfigFlags(FLAG_WINDOW_UNDECORATED);
+
+  // InitWindow create OpenGL context
+  // Make sure this line is the last line of the function.
+  InitWindow(kScreenWidth, kScreenHeight, "game");
 }
 
 void Game::Start() {

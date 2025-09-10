@@ -6,11 +6,11 @@
 class Game {
 public:
   void Run();
+  void Loop();  // used by webassembly
 
 private:
   void Init();   // configs need before init window
   void Start();  // configs need opengl content
-  void Loop();   // used by webassembly
   void Update();
   void Draw();
 

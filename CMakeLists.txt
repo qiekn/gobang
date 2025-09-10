@@ -27,7 +27,7 @@ FetchContent_MakeAvailable(raylib)
 file(GLOB_RECURSE SRCS CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/src/*.cpp") # source files
 file(GLOB_RECURSE HDRS CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/include/*.h") # header files
 
-add_compile_definitions(ASSETS="${CMAKE_SOURCE_DIR}/assets")
+add_compile_definitions(ASSETS="assets")
 
 # targets
 add_executable(${PROJECT_NAME} ${SRCS})
